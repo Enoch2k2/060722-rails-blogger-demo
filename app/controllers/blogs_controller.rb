@@ -1,6 +1,6 @@
 class BlogsController < ApplicationController
-  self.before_action(:find_blog, only: [:update, :destroy])
-  self.before_action(:unprocessable_entity_if_not_found, only: [:update, :destroy])
+  before_action :find_blog, only: [:update, :destroy]
+  before_action :unprocessable_entity_if_not_found, only: [:update, :destroy]
   
   def index
    @blogs = Blog.all
@@ -9,8 +9,11 @@ class BlogsController < ApplicationController
 
   def create
     blog = Blog.create(blog_params)
-
-    render json: blog, status: :created
+    if blog.valid?
+      render json: blog, status: :created
+    else
+      render json: { errors: blog.errors.full_messages }, status: :unprocessable_entity
+    end
   end
 
   def update # routes PATCH /blogs/:id    

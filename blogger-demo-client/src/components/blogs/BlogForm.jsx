@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom';
 
 const intialState = {
@@ -7,10 +7,19 @@ const intialState = {
   user: ""
 }
 
-const BlogForm = ({ addBlog }) => {
+const BlogForm = ({ addBlog, setErrors }) => {
   const [ formData, setFormData ] = useState(intialState);
 
   const navigate = useNavigate();
+
+  useEffect(() => {
+    // code here is what happens on mount
+
+    return () => {
+      // code here is what happens when the component is unmounting
+      setErrors([])
+    }
+  }, [])
 
   const handleChange = e => {
     const { name, value } = e.target;
@@ -32,8 +41,14 @@ const BlogForm = ({ addBlog }) => {
       body: JSON.stringify(formData)
     })
       .then(resp => resp.json())
-      .then(data => addBlog(data));
-    navigate('/blogs');
+      .then(data => {
+        if(data.errors) {
+          setErrors(data.errors)
+        } else {
+          addBlog(data)
+          navigate('/blogs');
+        }
+      });
   }
 
   return (

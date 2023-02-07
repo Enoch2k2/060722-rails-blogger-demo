@@ -3,11 +3,13 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import BlogEdit from './components/blogs/BlogEdit';
 import BlogForm from './components/blogs/BlogForm';
 import BlogList from './components/blogs/BlogList';
+import Errors from './components/errors/Errors';
 import Navbar from './components/navigation/Navbar';
 import Home from './components/static/Home';
 
 const App = () => {
   const [blogs, setBlogs] = useState([]);
+  const [errors, setErrors] = useState([]);
 
   useEffect(() => {
     fetch('http://localhost:3001/blogs')
@@ -38,10 +40,11 @@ const App = () => {
   return (
     <Router>
       <Navbar />
+      <Errors errors={ errors } />
       <Routes>
         <Route path="/" element={ <Home />} />
         <Route path="/blogs" element={ <BlogList deleteBlog={ deleteBlog } blogs={ blogs } />} />
-        <Route path="/blogs/new" element={ <BlogForm addBlog={ addBlog }/>} />
+        <Route path="/blogs/new" element={ <BlogForm addBlog={ addBlog } setErrors={ setErrors } />} />
         <Route path="/blogs/:id/edit" element={ <BlogEdit editBlog={ editBlog } blogs={ blogs }/>} />
       </Routes>
     </Router>
