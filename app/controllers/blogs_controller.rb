@@ -4,13 +4,13 @@ class BlogsController < ApplicationController
   
   def index
    @blogs = Blog.all
-   render json: @blogs
+   render json: @blogs, include: [:user], except: [:user_id]
   end
 
   def create
     blog = Blog.create(blog_params)
     if blog.valid?
-      render json: blog, status: :created
+      render json: blog, include: [:user], status: :created
     else
       render json: { errors: blog.errors.full_messages }, status: :unprocessable_entity
     end
@@ -18,7 +18,7 @@ class BlogsController < ApplicationController
 
   def update # routes PATCH /blogs/:id    
       @blog.update(blog_params)
-      render json: @blog
+      render json: @blog, include: [:user]
   end
 
   def destroy # DELETE /blogs/:id
@@ -38,7 +38,7 @@ class BlogsController < ApplicationController
 
   private
     def blog_params
-      params.require(:blog).permit(:title, :content, :user)
+      params.require(:blog).permit(:title, :content, :user_id)
     end
 
     def find_blog

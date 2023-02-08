@@ -5,11 +5,11 @@ class Blog < ApplicationRecord
   validates :content,
     presence: true,
     length: { in: 25..500 }
-  validates :user,
-    presence: true
   # validate :starts_with_t
-
-
+  
+  belongs_to :user
+  
+  
   # def starts_with_t
   #  unless !self.title.blank? && self.title[0].downcase == "t"
   #   errors.add(:title, "Must start with T")

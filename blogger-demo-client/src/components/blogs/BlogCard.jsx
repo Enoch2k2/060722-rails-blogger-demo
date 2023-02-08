@@ -19,7 +19,7 @@ const BlogCard = ({ blog, deleteBlog }) => {
     <div>
       <hr />
       <h4>{ blog.title }</h4>
-      <p>By: { blog.user }</p>
+      <p>By: { blog.user?.username }</p>
       <p>{ blog.content }</p>
       <button onClick={() => navigate(`/blogs/${ blog.id }/edit`)}>Edit</button>
       <button onClick={handleDelete}>Delete</button>
