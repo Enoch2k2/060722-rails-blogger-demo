@@ -4,9 +4,11 @@ import Signup from './components/auth/Signup';
 import BlogEdit from './components/blogs/BlogEdit';
 import BlogForm from './components/blogs/BlogForm';
 import BlogList from './components/blogs/BlogList';
+import UserBlogDetails from './components/blogs/UserBlogDetails';
 import Errors from './components/errors/Errors';
 import Navbar from './components/navigation/Navbar';
 import Home from './components/static/Home';
+import UserList from './components/users/UserList';
 import { baseUrl } from './Globals';
 
 const App = () => {
@@ -55,6 +57,8 @@ const App = () => {
       <Errors errors={ errors } />
       <Routes>
         <Route path="/" element={ <Home />} />
+        <Route path="/users" element={ <UserList users={ users } /> } />
+        <Route path="/users/:user_id/blogs" element={ <UserBlogDetails deleteBlog={ deleteBlog } /> } />
         <Route path="/blogs" element={ <BlogList deleteBlog={ deleteBlog } blogs={ blogs } />} />
         <Route path="/blogs/new" element={ <BlogForm users={ users } addBlog={ addBlog } setErrors={ setErrors } />} />
         <Route path="/blogs/:id/edit" element={ <BlogEdit editBlog={ editBlog } blogs={ blogs }/>} />

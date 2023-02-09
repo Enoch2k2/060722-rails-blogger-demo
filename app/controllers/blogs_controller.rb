@@ -3,7 +3,17 @@ class BlogsController < ApplicationController
   before_action :unprocessable_entity_if_not_found, only: [:update, :destroy]
   
   def index
+   # determine the route that got us here, was it /blogs or /users/:user_id/blogs
+  #  binding.pry
+  if params[:user_id] # /users/:user_id/blogs
+    user = User.find_by_id(params[:user_id])
+    # grab the user
+
+    @blogs = user.blogs
+    # render the json of the blogs and the user that they belong to that belong to that user
+  else # /blogs
    @blogs = Blog.all
+  end
    render json: @blogs, include: [:user], except: [:user_id]
   end
 
