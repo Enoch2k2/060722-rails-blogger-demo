@@ -40,7 +40,7 @@ const BlogForm = ({ addBlog, setErrors, users }) => {
   const handleSubmit = e => {
     e.preventDefault();
 
-    fetch('http://localhost:3001/blogs', {
+    fetch('/blogs', {
       method: "POST",
       headers: {
         "Accept": "application/json",

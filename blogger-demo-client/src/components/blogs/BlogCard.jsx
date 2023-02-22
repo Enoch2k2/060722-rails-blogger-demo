@@ -5,7 +5,7 @@ const BlogCard = ({ blog, deleteBlog }) => {
   const navigate = useNavigate();
 
   const handleDelete = () => {
-    fetch(`http://localhost:3001/blogs/${ blog.id }`, {
+    fetch(`/blogs/${ blog.id }`, {
       method: "DELETE",
       headers: {
         "Accept": "application/json"

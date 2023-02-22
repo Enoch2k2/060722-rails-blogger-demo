@@ -6,4 +6,6 @@ Rails.application.routes.draw do
   get "/users/:user_id/blogs", to: "blogs#index"
 
   post "/signup", to: "users#create"
+
+  get "/whats-the-cookies", to: "blogs#get_cookies_and_display"
 end

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { baseUrl, headers } from '../../Globals';
+import { headers } from '../../Globals';
 
 const Signup = ({ setErrors, addUser }) => {
   const [username, setUsername] = useState("")
@@ -16,7 +16,7 @@ const Signup = ({ setErrors, addUser }) => {
   const handleSubmit = e => {
     e.preventDefault();
 
-    fetch(baseUrl + "/signup", {
+    fetch("/signup", {
       method: "POST",
       headers,
       body: JSON.stringify({ username })

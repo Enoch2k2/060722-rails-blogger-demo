@@ -9,7 +9,6 @@ import Errors from './components/errors/Errors';
 import Navbar from './components/navigation/Navbar';
 import Home from './components/static/Home';
 import UserList from './components/users/UserList';
-import { baseUrl } from './Globals';
 
 const App = () => {
   const [blogs, setBlogs] = useState([]);
@@ -17,16 +16,16 @@ const App = () => {
   const [users, setUsers] = useState([]);
 
   useEffect(() => {
-    fetch('http://localhost:3001/blogs')
+    fetch('/blogs')
       .then(resp => resp.json())
       .then(data => {
         setBlogs(data)
-        fetch(baseUrl + "/users")
+        fetch("/users")
           .then(resp => resp.json())
           .then(data => setUsers(data))
       })
   }, [])
-  console.log(blogs)
+
   const addBlog = blog => {
     setBlogs([...blogs, blog]);
   }

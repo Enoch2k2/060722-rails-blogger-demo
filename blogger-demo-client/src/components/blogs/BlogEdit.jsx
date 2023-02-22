@@ -36,7 +36,7 @@ const BlogEdit = ({ editBlog, blogs }) => {
   const handleSubmit = e => {
     e.preventDefault();
 
-    fetch(`http://localhost:3001/blogs/${id}`, {
+    fetch(`/blogs/${id}`, {
       method: "PATCH",
       headers: {
         "Accept": "application/json",

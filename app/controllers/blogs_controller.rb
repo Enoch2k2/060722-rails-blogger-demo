@@ -1,6 +1,12 @@
 class BlogsController < ApplicationController
   before_action :find_blog, only: [:update, :destroy]
   before_action :unprocessable_entity_if_not_found, only: [:update, :destroy]
+
+  def get_cookies_and_display
+    session[:session_hello] ||= "World"
+    cookies[:cookies_hello] ||= "World"
+    render json: { session: session, cookies: cookies.to_hash }
+  end
   
   def index
    # determine the route that got us here, was it /blogs or /users/:user_id/blogs
