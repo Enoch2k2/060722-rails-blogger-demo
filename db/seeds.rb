@@ -10,13 +10,11 @@ Blog.destroy_all
 Blog.create([
   {
     title: "Title 1",
-    content: "Content 1",
-    user: "Bob"
+    content: "Content 1"
   },
   {
     title: "Title 2",
-    content: "Content 2",
-    user: "Not Bob"
+    content: "Content 2"
   }
 ])
 

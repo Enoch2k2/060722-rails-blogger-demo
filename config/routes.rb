@@ -6,4 +6,7 @@ Rails.application.routes.draw do
   get "/users/:user_id/blogs", to: "blogs#index"
 
   post "/signup", to: "users#create"
+  post "/login", to: "sessions#create"
+  delete "/logout", to: "sessions#destroy"
+  get "/get-current-user", to: "users#get_current_user"
 end

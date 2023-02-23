@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { headers } from '../../Globals';
 
-const Signup = ({ setErrors, addUser, loginUser }) => {
+const Login = ({ setErrors, loginUser }) => {
   const [username, setUsername] = useState("")
   const [password, setPassword] = useState("")
 
@@ -17,7 +17,7 @@ const Signup = ({ setErrors, addUser, loginUser }) => {
   const handleSubmit = e => {
     e.preventDefault();
 
-    fetch("/signup", {
+    fetch("/login", {
       method: "POST",
       headers,
       body: JSON.stringify({ username, password })
@@ -27,15 +27,15 @@ const Signup = ({ setErrors, addUser, loginUser }) => {
         if(data.errors) {
           setErrors(data.errors);
         } else {
-          addUser(data)
           loginUser(data)
+          setErrors([])
         }
       })
   }
 
   return (
     <form onSubmit={ handleSubmit }>
-      <h1>Create Account</h1>
+      <h1>Login</h1>
 
       <div>
         <label htmlFor="username">Username: </label>
@@ -60,9 +60,9 @@ const Signup = ({ setErrors, addUser, loginUser }) => {
          />
       </div>
 
-      <input type="submit" value="Create Account" />
+      <input type="submit" value="Login" />
     </form>
   )
 }
 
-export default Signup
+export default Login
