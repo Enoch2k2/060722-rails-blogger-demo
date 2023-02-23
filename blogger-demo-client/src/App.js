@@ -26,6 +26,12 @@ const App = () => {
       })
   }, [])
 
+  useEffect(() => {
+    fetch('whats-the-cookies')
+      .then(resp => resp.json())
+      .then(data => console.log(data))
+  }, [])
+
   const addBlog = blog => {
     setBlogs([...blogs, blog]);
   }
