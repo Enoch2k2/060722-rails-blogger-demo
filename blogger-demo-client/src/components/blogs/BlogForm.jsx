@@ -2,31 +2,27 @@ import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom';
 
 
-const BlogForm = ({ addBlog, setErrors, users }) => {
+const BlogForm = ({ addBlog, setErrors, users, loading, loggedIn }) => {
 
   const intialState = {
     title: "",
-    content: "",
-    user_id: ""
+    content: ""
   }
   const [ formData, setFormData ] = useState(intialState);
 
   const navigate = useNavigate();
 
   useEffect(() => {
-    // code here is what happens on mount
-    if(users.length > 0) {
-      setFormData({
-        ...formData,
-        user_id: users[0]?.id
-      })
+
+    if(!loading && !loggedIn) {
+      navigate('/login')
     }
 
     return () => {
       // code here is what happens when the component is unmounting
       setErrors([])
     }
-  }, [users])
+  }, [loading, loggedIn])
 
   const handleChange = e => {
     const { name, value } = e.target;
@@ -59,8 +55,6 @@ const BlogForm = ({ addBlog, setErrors, users }) => {
       });
   }
 
-  const selectOptions = users.map(user => <option key={user.id} value={ user.id }>{ user.username }</option>)
-
   return (
     <div>
       <h3>Create Blog</h3>
@@ -75,12 +69,6 @@ const BlogForm = ({ addBlog, setErrors, users }) => {
             value={ formData.title }
             onChange={ handleChange }
           />
-        </div>
-        <div>
-          <label htmlFor="user_id">Select User: </label>
-          <select id="user_id" name="user_id" value={ formData.user_id } onChange={ handleChange }>
-            {selectOptions}
-          </select>
         </div>
         <div>
           <label htmlFor="content">Content</label>

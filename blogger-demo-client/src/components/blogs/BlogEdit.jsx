@@ -3,27 +3,37 @@ import { useNavigate, useParams } from 'react-router-dom';
 
 const intialState = {
   title: "",
-  content: "",
-  user: ""
+  content: ""
 }
 
-const BlogEdit = ({ editBlog, blogs }) => {
+const BlogEdit = ({ editBlog, blogs, loading, loggedIn, currentUser }) => {
   const [ formData, setFormData ] = useState(intialState);
   const { id } = useParams();
   const navigate = useNavigate();
 
   useEffect(() => {
+    if(!loading && !loggedIn) {
+      navigate('/login')
+    }
+
     if(blogs.length > 0) {
-      // find a blog
       const blog = blogs.find(blog => blog.id === parseInt(id, 10))
+
+      // find a blog
+      console.log('loading', loading)
+      console.log('currentuser', currentUser)
+      console.log('blog', blog)
+      console.log('blog user id', blog.user.id)
+      if(!loading && currentUser.id !== blog.user.id) {
+        navigate('/')
+      }
       console.log('blog', blog)
       setFormData({
         title: blog.title,
-        content: blog.content,
-        user: blog.user
+        content: blog.content
       })
     }
-  }, [blogs])
+  }, [blogs, loading, loggedIn, currentUser])
 
   const handleChange = e => {
     const { name, value } = e.target;
@@ -63,16 +73,6 @@ const BlogEdit = ({ editBlog, blogs }) => {
             name="title"
             id="title"
             value={ formData.title }
-            onChange={ handleChange }
-          />
-        </div>
-        <div>
-          <label htmlFor="user">User</label>
-          <input
-            type="text"
-            name="user"
-            id="user"
-            value={ formData.user }
             onChange={ handleChange }
           />
         </div>

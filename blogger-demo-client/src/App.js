@@ -26,6 +26,7 @@ const App = () => {
         if(!data.message) {
           loginUser(data)
         }
+        setLoading(false)
       })
 
     fetch('/blogs')
@@ -80,13 +81,13 @@ const App = () => {
       <Errors errors={ errors } />
       <Routes>
         <Route path="/" element={ <Home />} />
-        <Route path="/users" element={ <UserList users={ users } /> } />
-        <Route path="/users/:user_id/blogs" element={ <UserBlogDetails deleteBlog={ deleteBlog } /> } />
-        <Route path="/blogs" element={ <BlogList deleteBlog={ deleteBlog } blogs={ blogs } />} />
-        <Route path="/blogs/new" element={ <BlogForm users={ users } addBlog={ addBlog } setErrors={ setErrors } />} />
-        <Route path="/blogs/:id/edit" element={ <BlogEdit editBlog={ editBlog } blogs={ blogs }/>} />
-        <Route path="/signup" element={ <Signup setErrors={ setErrors } addUser={ addUser } loginUser={loginUser} /> } />
-        <Route path="/login" element={ <Login setErrors={ setErrors } loginUser={loginUser} /> } />
+        <Route path="/users" element={ <UserList users={ users } loading={loading} loggedIn={ loggedIn } /> } />
+        <Route path="/users/:user_id/blogs" element={ <UserBlogDetails deleteBlog={ deleteBlog } currentUser={ currentUser } /> } />
+        <Route path="/blogs" element={ <BlogList deleteBlog={ deleteBlog } blogs={ blogs } loggedIn={ loggedIn } loading={ loading } />} />
+        <Route path="/blogs/new" element={ <BlogForm users={ users } addBlog={ addBlog } setErrors={ setErrors } loading={ loading } loggedIn={ loggedIn } />} />
+        <Route path="/blogs/:id/edit" element={ <BlogEdit editBlog={ editBlog } blogs={ blogs } loading={ loading } loggedIn={ loggedIn } currentUser={ currentUser } />} />
+        <Route path="/signup" element={ <Signup setErrors={ setErrors } addUser={ addUser } loginUser={loginUser} loading={ loading } loggedIn={ loggedIn } /> }  />
+        <Route path="/login" element={ <Login setErrors={ setErrors } loginUser={loginUser} loggedIn={ loggedIn } loading={ loading } /> } />
       </Routes>
     </Router>
   );

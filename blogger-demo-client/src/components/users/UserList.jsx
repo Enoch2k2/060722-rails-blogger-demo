@@ -1,8 +1,16 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
+import React, { useEffect } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
 
-const UserList = ({ users }) => {
 
+const UserList = ({ users, loggedIn, loading }) => {
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if(!loading && !loggedIn) {
+      navigate('/login')
+    }
+  }, [loading, loggedIn])
+  
   const userLinks = users.map(user => <li key={ user.id }><Link to={`/users/${ user.id }/blogs`}>{ user.username }</Link></li>)
 
   return (

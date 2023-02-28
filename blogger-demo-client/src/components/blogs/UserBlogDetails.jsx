@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom'
 import BlogCard from './BlogCard';
 // /users/2/blogs
 
- const UserBlogDetails = ({ deleteBlog }) => {
+ const UserBlogDetails = ({ deleteBlog, currentUser }) => {
   const [userBlogs, setUserBlogs] = useState([]);
   const { user_id } = useParams(); // /users/:user_id/blogs
 
@@ -13,7 +13,7 @@ import BlogCard from './BlogCard';
       .then(data => setUserBlogs(data))
   }, [user_id])
 
-  const blogCards = userBlogs.map(blog => <BlogCard key={ blog.id } blog={ blog } deleteBlog={ deleteBlog } />)
+  const blogCards = userBlogs.map(blog => <BlogCard key={ blog.id } blog={ blog } deleteBlog={ deleteBlog } currentUser={ currentUser }/>)
 
   return (
     <div>

@@ -18,7 +18,7 @@ class BlogsController < ApplicationController
   end
 
   def create
-    blog = Blog.create(blog_params)
+    blog = current_user.blogs.create(blog_params)
     if blog.valid?
       render json: blog, include: [:user], status: :created
     else
@@ -48,7 +48,7 @@ class BlogsController < ApplicationController
 
   private
     def blog_params
-      params.require(:blog).permit(:title, :content, :user_id)
+      params.require(:blog).permit(:title, :content)
     end
 
     def find_blog

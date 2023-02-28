@@ -1,18 +1,25 @@
 import React, { useState, useEffect } from 'react'
 import { headers } from '../../Globals';
+import { useNavigate } from 'react-router-dom';
 
-const Signup = ({ setErrors, addUser, loginUser }) => {
+const Signup = ({ setErrors, addUser, loginUser, loading, loggedIn }) => {
   const [username, setUsername] = useState("")
   const [password, setPassword] = useState("")
 
+  const navigate = useNavigate();
+
   useEffect(() => {
     // code here is what happens on mount
+    if(!loading && loggedIn) {
+      navigate("/")
+    }
+    
 
     return () => {
       // code here is what happens when the component is unmounting
       setErrors([])
     }
-  }, [])
+  }, [loading, loggedIn])
 
   const handleSubmit = e => {
     e.preventDefault();
@@ -29,6 +36,7 @@ const Signup = ({ setErrors, addUser, loginUser }) => {
         } else {
           addUser(data)
           loginUser(data)
+          navigate("/blogs")
         }
       })
   }
