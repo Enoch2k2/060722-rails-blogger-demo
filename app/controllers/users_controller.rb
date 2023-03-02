@@ -1,15 +1,13 @@
 class UsersController < ApplicationController
+  skip_before_action :authorize, only: [:get_current_user, :create]
+  before_action :authorized, only: [:get_current_user, :create]
+
   def index
     render json: User.all
   end
 
   def get_current_user
-    # render json of the currently logged in user
-    if logged_in?
-      render json: current_user
-    else
-      render json: { message: "Not Logged In"}, status: :unauthorized # 422
-    end
+    render json: current_user
   end
 
   # signup
