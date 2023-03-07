@@ -1,5 +1,7 @@
 class User < ApplicationRecord
   has_many :blogs
+  has_many :comments
+  has_many :commented_blogs, through: :comments, foreign_key: "blog_id", class_name: "Blog"
 
   validates :username, 
     uniqueness: true, 

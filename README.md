@@ -1,24 +1,10 @@
-# README
+User has many blogs
+User has many comments
+User has many commented_blogs through comments
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+Blog belong to a user // note this is singular
+Blog that has many comments
+Blog has many users through comments // note this is plural
 
-Things you may want to cover:
-
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+Comment belong to a user
+Comment belong to a blog
