@@ -7,8 +7,9 @@ class Blog < ApplicationRecord
     length: { in: 3..500 }
   # validate :starts_with_t
   
-  has_many :comments
-  has_many :commented_users, through: :comments, foreign_key: "user_id", class_name: "User"
+  has_many :comments, dependent: :destroy
+  # has_many :commented_users, through: :comments, foreign_key: "user_id", class_name: "User"
+  has_many :users, through: :comments
   belongs_to :user
   
   

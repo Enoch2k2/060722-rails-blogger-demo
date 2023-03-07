@@ -1,7 +1,7 @@
 class User < ApplicationRecord
-  has_many :blogs
-  has_many :comments
-  has_many :commented_blogs, through: :comments, foreign_key: "blog_id", class_name: "Blog"
+  has_many :blogs, dependent: :destroy
+  has_many :comments, dependent: :destroy
+  has_many :commented_blogs, through: :comments, source: :blog
 
   validates :username, 
     uniqueness: true, 
