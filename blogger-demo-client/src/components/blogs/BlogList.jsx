@@ -1,18 +1,20 @@
 import BlogCard from "./BlogCard"
-import { useEffect } from 'react';
+import { useContext, useEffect } from 'react';
 import { useNavigate } from "react-router-dom";
+import { UserContext } from "../../context/UserContext";
+import { BlogContext } from "../../context/BlogContext";
 
-const BlogList = ({ blogs, deleteBlog, loggedIn, loading }) => {
+const BlogList = ({ loading }) => {
 
   const navigate = useNavigate();
+  const { loggedIn } = useContext(UserContext)
+  const { blogs, deleteBlog } = useContext(BlogContext);
 
   useEffect(() => {
-    console.log('loading', loading);
-    console.log('loggedIn', loggedIn);
     if(!loading && !loggedIn) {
       navigate('/login')
     }
-  }, [loading, loggedIn])
+  }, [loading, loggedIn, navigate])
 
   const blogCards = blogs.map((blog, idx) => <BlogCard key={ idx } blog={ blog } deleteBlog={ deleteBlog } />)
   return (

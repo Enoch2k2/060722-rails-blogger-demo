@@ -1,8 +1,10 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import { headers } from '../../Globals';
 import { useNavigate } from 'react-router-dom';
+import { UserContext } from '../../context/UserContext';
 
-const Login = ({ setErrors, loginUser, loading, loggedIn }) => {
+const Login = ({ setErrors, loading }) => {
+  const { loginUser, loggedIn } = useContext(UserContext);
   const [username, setUsername] = useState("")
   const [password, setPassword] = useState("")
 

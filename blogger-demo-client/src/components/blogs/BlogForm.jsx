@@ -1,13 +1,18 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useContext } from 'react'
 import { useNavigate } from 'react-router-dom';
+import { BlogContext } from '../../context/BlogContext';
+import { UserContext } from '../../context/UserContext';
 
 
-const BlogForm = ({ addBlog, setErrors, users, loading, loggedIn }) => {
-
+const BlogForm = ({ setErrors, loading }) => {
+  
   const intialState = {
     title: "",
     content: ""
   }
+  
+  const { loggedIn } = useContext(UserContext);
+  const { addBlog } = useContext(BlogContext)
   const [ formData, setFormData ] = useState(intialState);
 
   const navigate = useNavigate();
@@ -22,7 +27,7 @@ const BlogForm = ({ addBlog, setErrors, users, loading, loggedIn }) => {
       // code here is what happens when the component is unmounting
       setErrors([])
     }
-  }, [loading, loggedIn])
+  }, [loading, loggedIn, navigate, setErrors])
 
   const handleChange = e => {
     const { name, value } = e.target;
@@ -75,7 +80,6 @@ const BlogForm = ({ addBlog, setErrors, users, loading, loggedIn }) => {
           <textarea
             type="text"
             name="content"
-            id="content"
             value={ formData.content }
             onChange={ handleChange }
           />

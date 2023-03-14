@@ -1,10 +1,12 @@
-import React, { useEffect } from 'react'
+import React, { useContext, useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
+import { UserContext } from '../../context/UserContext';
 
 
-const UserList = ({ users, loggedIn, loading }) => {
+const UserList = ({ loading }) => {
   const navigate = useNavigate();
-
+  const { users, loggedIn } = useContext(UserContext);
+  
   useEffect(() => {
     if(!loading && !loggedIn) {
       navigate('/login')

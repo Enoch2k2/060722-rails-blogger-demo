@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import Login from './components/auth/Login';
 import Signup from './components/auth/Signup';
@@ -10,85 +10,34 @@ import Errors from './components/errors/Errors';
 import Navbar from './components/navigation/Navbar';
 import Home from './components/static/Home';
 import UserList from './components/users/UserList';
+import { BlogProvider } from './context/BlogContext';
+import { UserProvider } from './context/UserContext';
 
 const App = () => {
-  const [blogs, setBlogs] = useState([]);
   const [errors, setErrors] = useState([]);
-  const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [currentUser, setCurrentUser] = useState(null);
-  const [loggedIn, setLoggedIn] = useState(false);
-
-  useEffect(() => {
-    fetch('/get-current-user')
-      .then(resp => resp.json())
-      .then(data => {
-        if(!data.message) {
-          loginUser(data)
-        }
-        setLoading(false)
-      })
-
-    fetch('/blogs')
-      .then(resp => resp.json())
-      .then(data => {
-        setBlogs(data)
-        fetch("/users")
-          .then(resp => resp.json())
-          .then(data => setUsers(data))
-      })
-  }, [])
-
-  const loginUser = user => {
-    setCurrentUser(user);
-    setLoggedIn(true)
-  }
-
-  const logoutUser = () => {
-    setCurrentUser(null);
-    setLoggedIn(false)
-  }
-
-  console.log('currentUser', currentUser);
-
-  const addBlog = blog => {
-    setBlogs([...blogs, blog]);
-  }
-
-  const editBlog = newBlog => {
-    const updatedBlogs = blogs.map(blog => {
-      if(newBlog.id === blog.id) {
-        return newBlog;
-      } else {
-        return blog;
-      }
-    })
-    setBlogs(updatedBlogs);
-  }
-
-  const deleteBlog = deletedBlog => {
-    const updatedBlogs = blogs.filter(blog => blog.id !== deletedBlog.id)
-    setBlogs(updatedBlogs)
-  }
-
-  const addUser = user => {
-    setUsers([...users, user])
-  }
 
   return (
     <Router>
-      <Navbar loggedIn={ loggedIn } logoutUser={ logoutUser } />
-      <Errors errors={ errors } />
-      <Routes>
-        <Route path="/" element={ <Home />} />
-        <Route path="/users" element={ <UserList users={ users } loading={loading} loggedIn={ loggedIn } /> } />
-        <Route path="/users/:user_id/blogs" element={ <UserBlogDetails deleteBlog={ deleteBlog } currentUser={ currentUser } /> } />
-        <Route path="/blogs" element={ <BlogList deleteBlog={ deleteBlog } blogs={ blogs } loggedIn={ loggedIn } loading={ loading } />} />
-        <Route path="/blogs/new" element={ <BlogForm users={ users } addBlog={ addBlog } setErrors={ setErrors } loading={ loading } loggedIn={ loggedIn } />} />
-        <Route path="/blogs/:id/edit" element={ <BlogEdit editBlog={ editBlog } blogs={ blogs } loading={ loading } loggedIn={ loggedIn } currentUser={ currentUser } />} />
-        <Route path="/signup" element={ <Signup setErrors={ setErrors } addUser={ addUser } loginUser={loginUser} loading={ loading } loggedIn={ loggedIn } /> }  />
-        <Route path="/login" element={ <Login setErrors={ setErrors } loginUser={loginUser} loggedIn={ loggedIn } loading={ loading } /> } />
-      </Routes>
+      <UserProvider setLoading={ setLoading }>
+        <BlogProvider>
+          <Navbar />
+          <Errors errors={ errors } />
+          {
+            loading ? <h1>Loading...</h1> : 
+            <Routes>
+            <Route path="/" element={ <Home />} />
+            <Route path="/users" element={ <UserList /> } />
+            <Route path="/users/:user_id/blogs" element={ <UserBlogDetails /> } />
+            <Route path="/blogs" element={ <BlogList />} />
+            <Route path="/blogs/new" element={ <BlogForm setErrors={ setErrors } loading={ loading } />} />
+            <Route path="/blogs/:id/edit" element={ <BlogEdit  loading={ loading } />} />
+            <Route path="/signup" element={ <Signup setErrors={ setErrors } loading={ loading } /> }  />
+            <Route path="/login" element={ <Login setErrors={ setErrors } loading={ loading } /> } />
+          </Routes>
+          }
+        </BlogProvider>
+      </UserProvider>
     </Router>
   );
 }

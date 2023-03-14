@@ -1,12 +1,16 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom';
+import { BlogContext } from '../../context/BlogContext';
+import { UserContext } from '../../context/UserContext';
 
 const intialState = {
   title: "",
   content: ""
 }
 
-const BlogEdit = ({ editBlog, blogs, loading, loggedIn, currentUser }) => {
+const BlogEdit = ({ loading }) => {
+  const { loggedIn, currentUser } = useContext(UserContext);
+  const { editBlog, blogs } = useContext(BlogContext);
   const [ formData, setFormData ] = useState(intialState);
   const { id } = useParams();
   const navigate = useNavigate();
@@ -23,8 +27,8 @@ const BlogEdit = ({ editBlog, blogs, loading, loggedIn, currentUser }) => {
       console.log('loading', loading)
       console.log('currentuser', currentUser)
       console.log('blog', blog)
-      console.log('blog user id', blog.user.id)
-      if(!loading && currentUser.id !== blog.user.id) {
+      console.log('blog user id', blog.author.id)
+      if(!loading && currentUser.id !== blog.author.id) {
         navigate('/')
       }
       console.log('blog', blog)

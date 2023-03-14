@@ -3,7 +3,10 @@ class User < ApplicationRecord
   has_many :comments, dependent: :destroy
   has_many :commented_blogs, through: :comments, source: :blog
 
-  validates :username, 
+  # user.blogs # => array of blogs that we own
+  # user.commented_blogs # => an array of blogs that we commented on
+
+  validates :username,
     uniqueness: true, 
     presence: true
 

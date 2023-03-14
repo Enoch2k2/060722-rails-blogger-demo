@@ -8,10 +8,9 @@ class Blog < ApplicationRecord
   # validate :starts_with_t
   
   has_many :comments, dependent: :destroy
-  # has_many :commented_users, through: :comments, foreign_key: "user_id", class_name: "User"
-  has_many :users, through: :comments
-  belongs_to :user
-  
+  has_many :commented_users, through: :comments, source: :user
+  # has_many :users, through: :comments
+  belongs_to :author, class_name: "User", foreign_key: "user_id"
   
   # def starts_with_t
   #  unless !self.title.blank? && self.title[0].downcase == "t"

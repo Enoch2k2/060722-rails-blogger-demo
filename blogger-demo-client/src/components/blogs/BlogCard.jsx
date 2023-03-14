@@ -1,9 +1,12 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { BlogContext } from '../../context/BlogContext';
+import { UserContext } from '../../context/UserContext';
 
-const BlogCard = ({ blog, deleteBlog, currentUser }) => {
+const BlogCard = ({ blog }) => {
   const navigate = useNavigate();
-
+  const { currentUser } = useContext(UserContext);
+  const { deleteBlog } = useContext(BlogContext);
   const handleDelete = () => {
     fetch(`/blogs/${ blog.id }`, {
       method: "DELETE",
@@ -19,9 +22,9 @@ const BlogCard = ({ blog, deleteBlog, currentUser }) => {
     <div>
       <hr />
       <h4>{ blog.title }</h4>
-      <p>By: { blog.user?.username }</p>
+      <p>By: { blog.author?.username }</p>
       <p>{ blog.content }</p>
-      {currentUser && currentUser.id === blog.user.id ? <>
+      {currentUser && currentUser.id === blog.author.id ? <>
         <button onClick={() => navigate(`/blogs/${ blog.id }/edit`)}>Edit</button>
         <button onClick={handleDelete}>Delete</button>
       </> : null}

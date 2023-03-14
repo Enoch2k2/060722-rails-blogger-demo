@@ -1,6 +1,7 @@
 class BlogsController < ApplicationController
   before_action :find_blog, only: [:update, :destroy]
   before_action :unprocessable_entity_if_not_found, only: [:update, :destroy]
+  skip_before_action :authorize, only: [:index]
 
   before_action only: [:update, :destroy] do
     authorize_user_resource(@blog.user_id)
@@ -13,13 +14,13 @@ class BlogsController < ApplicationController
     else 
      @blogs = Blog.all
     end
-    render json: @blogs, include: [:user], except: [:user_id] 
+    render json: @blogs, include: [:author], except: [:user_id] 
   end
 
   def create
     blog = current_user.blogs.create(blog_params)
     if blog.valid?
-      render json: blog, include: [:user], status: :created
+      render json: blog, include: [:author], status: :created
     else
       render json: { errors: blog.errors.full_messages }, status: :unprocessable_entity
     end
@@ -28,7 +29,7 @@ class BlogsController < ApplicationController
   def update # routes PATCH /blogs/:id
     # we want the current user to be the user of the blog 
       @blog.update(blog_params)
-      render json: @blog, include: [:user]
+      render json: @blog, include: [:author]
   end
 
   def destroy # DELETE /blogs/:id
