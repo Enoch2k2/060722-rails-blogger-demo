@@ -11,7 +11,7 @@ const UserList = ({ loading }) => {
     if(!loading && !loggedIn) {
       navigate('/login')
     }
-  }, [loading, loggedIn])
+  }, [loading, loggedIn, navigate])
   
   const userLinks = users.map(user => <li key={ user.id }><Link to={`/users/${ user.id }/blogs`}>{ user.username }</Link></li>)
 

@@ -1,16 +1,18 @@
 import { useState, useEffect, useContext } from 'react'
 import { useNavigate } from 'react-router-dom';
 import { BlogContext } from '../../context/BlogContext';
+import { ErrorsContext } from '../../context/ErrorsContext';
 import { UserContext } from '../../context/UserContext';
 
 
-const BlogForm = ({ setErrors, loading }) => {
+const BlogForm = ({ loading }) => {
   
   const intialState = {
     title: "",
     content: ""
   }
   
+  const { setErrors } = useContext(ErrorsContext);
   const { loggedIn } = useContext(UserContext);
   const { addBlog } = useContext(BlogContext)
   const [ formData, setFormData ] = useState(intialState);

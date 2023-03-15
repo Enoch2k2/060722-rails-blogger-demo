@@ -2,8 +2,10 @@ import React, { useState, useEffect, useContext } from 'react'
 import { headers } from '../../Globals';
 import { useNavigate } from 'react-router-dom';
 import { UserContext } from '../../context/UserContext';
+import { ErrorsContext } from '../../context/ErrorsContext';
 
-const Signup = ({ setErrors, loading }) => {
+const Signup = ({ loading }) => {
+  const { setErrors } = useContext(ErrorsContext);
   const { addUser, loginUser, loggedIn } = useContext(UserContext);
   const [username, setUsername] = useState("")
   const [password, setPassword] = useState("")
@@ -21,7 +23,7 @@ const Signup = ({ setErrors, loading }) => {
       // code here is what happens when the component is unmounting
       setErrors([])
     }
-  }, [loading, loggedIn])
+  }, [loading, loggedIn, navigate, setErrors])
 
   const handleSubmit = e => {
     e.preventDefault();

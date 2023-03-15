@@ -18,7 +18,7 @@ const UserProvider = ({ children, setLoading }) => {
         setLoading(false);
       }
     })
-  }, [])
+  }, [setLoading])
 
   useEffect(() => {
     if(loggedIn) {
@@ -29,7 +29,7 @@ const UserProvider = ({ children, setLoading }) => {
         setLoading(false)
       })
     }
-  }, [loggedIn])
+  }, [loggedIn, setLoading])
 
   const loginUser = user => {
     setCurrentUser(user);

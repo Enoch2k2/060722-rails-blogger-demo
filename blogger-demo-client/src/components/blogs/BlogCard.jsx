@@ -22,7 +22,7 @@ const BlogCard = ({ blog }) => {
     <div>
       <hr />
       <h4>{ blog.title }</h4>
-      <p>By: { blog.author?.username }</p>
+    <p>By: { blog.author?.username }</p>
       <p>{ blog.content }</p>
       {currentUser && currentUser.id === blog.author.id ? <>
         <button onClick={() => navigate(`/blogs/${ blog.id }/edit`)}>Edit</button>

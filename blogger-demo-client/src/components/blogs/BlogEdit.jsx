@@ -37,7 +37,7 @@ const BlogEdit = ({ loading }) => {
         content: blog.content
       })
     }
-  }, [blogs, loading, loggedIn, currentUser])
+  }, [blogs, loading, loggedIn, currentUser, id, navigate])
 
   const handleChange = e => {
     const { name, value } = e.target;

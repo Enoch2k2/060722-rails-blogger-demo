@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { UserContext } from '../../context/UserContext';
 
 const Navbar = () => {
-  const { loggedIn, logoutUser } = useContext(UserContext)
+  const { loggedIn, logoutUser, currentUser } = useContext(UserContext)
 
   const handleLogout = () => {
     fetch('/logout', { method: "DELETE" })
@@ -13,6 +13,7 @@ const Navbar = () => {
   const loggedInLinks = () => {
     return (
       <>
+        <li>{ currentUser.username }</li>
         <li><Link to="/users">User List</Link></li>
         <li><Link to="/blogs">Blogs</Link></li>
         <li><Link to="/blogs/new">Create Blog</Link></li>
