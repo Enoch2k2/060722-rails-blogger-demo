@@ -3,7 +3,7 @@ class UsersController < ApplicationController
   before_action :authorized, only: [:create]
 
   def index
-    render json: User.all, include: {blogs: { include: [:author] }}
+    render json: User.all
   end
 
   def get_current_user

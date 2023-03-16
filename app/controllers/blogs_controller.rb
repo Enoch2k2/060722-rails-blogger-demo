@@ -14,13 +14,13 @@ class BlogsController < ApplicationController
     else 
      @blogs = Blog.all
     end
-    render json: @blogs, include: [:author], except: [:user_id] 
+    render json: @blogs
   end
 
   def create
     blog = current_user.blogs.create(blog_params)
     if blog.valid?
-      render json: blog, include: [:author], status: :created
+      render json: blog
     else
       render json: { errors: blog.errors.full_messages }, status: :unprocessable_entity
     end
