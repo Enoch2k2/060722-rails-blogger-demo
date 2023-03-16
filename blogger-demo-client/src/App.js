@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import Login from './components/auth/Login';
 import Signup from './components/auth/Signup';
+import BlogDetails from './components/blogs/BlogDetails';
 import BlogEdit from './components/blogs/BlogEdit';
 import BlogForm from './components/blogs/BlogForm';
 import BlogList from './components/blogs/BlogList';
@@ -33,6 +34,7 @@ const App = () => {
               <Route path="/blogs" element={ <BlogList />} />
               <Route path="/blogs/new" element={ <BlogForm loading={ loading } />} />
               <Route path="/blogs/:id/edit" element={ <BlogEdit  loading={ loading } />} />
+              <Route path="/blogs/:id" element={ <BlogDetails /> } />
               <Route path="/signup" element={ <Signup loading={ loading } /> }  />
               <Route path="/login" element={ <Login loading={ loading } /> } />
             </Routes>

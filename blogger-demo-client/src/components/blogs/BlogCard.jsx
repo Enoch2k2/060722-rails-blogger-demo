@@ -1,5 +1,5 @@
 import React, { useContext } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { BlogContext } from '../../context/BlogContext';
 import { UserContext } from '../../context/UserContext';
 
@@ -21,7 +21,7 @@ const BlogCard = ({ blog }) => {
   return (
     <div>
       <hr />
-      <h4>{ blog.title }</h4>
+      <h4><Link to={`/blogs/${ blog.id }`}>{ blog.title }</Link></h4>
     <p>By: { blog.author?.username }</p>
       <p>{ blog.content }</p>
       {currentUser && currentUser.id === blog.author.id ? <>
