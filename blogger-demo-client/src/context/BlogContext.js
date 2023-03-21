@@ -33,7 +33,25 @@ const BlogProvider = ({ children }) => {
     setBlogs(updatedBlogs)
   }
 
-  return <BlogContext.Provider value={{ blogs, addBlog, editBlog, deleteBlog }}>{ children }</BlogContext.Provider>
+  const addComment = comment => { // comment = data
+    // blogs arrays
+    const blog = blogs.find(b => b.id === comment.blog_id);
+    const updatedComments = [...blog.comments, comment];
+    const updatedBlog = { ...blog, comments: updatedComments };
+
+    const updatedBlogs = blogs.map(b => {
+      if(b.id === blog.id) {
+        return updatedBlog;
+      } else {
+        return b;
+      }
+    });
+    // blog that contains comments
+    // comments of a particular blog, needs to have this comment added to it
+    setBlogs(updatedBlogs);
+  }
+
+  return <BlogContext.Provider value={{ blogs, addBlog, editBlog, deleteBlog, addComment }}>{ children }</BlogContext.Provider>
 }
 
 export { BlogContext, BlogProvider };
