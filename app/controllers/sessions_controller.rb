@@ -10,8 +10,8 @@ class SessionsController < ApplicationController
 
 
     # we need to confirm that user that the password matches the password that is stored
-    if user&.authenticate(params[:password])  
-      session[:user_id] = user.id  
+    if user&.authenticate(params[:password])
+      session[:user_id] = user.id
       render json: user
     else
       render json: { errors: ["Username or Password didn't match"]}, status: :unprocessable_entity

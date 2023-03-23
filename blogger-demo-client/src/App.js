@@ -14,10 +14,13 @@ import UserList from './components/users/UserList';
 import { BlogProvider } from './context/BlogContext';
 import { ErrorsProvider } from './context/ErrorsContext';
 import { UserProvider } from './context/UserContext';
+import { useSelector } from 'react-redux';
 
 const App = () => {
   const [loading, setLoading] = useState(true);
+  const reduxState = useSelector((store) => store.blogsReducer );
 
+  console.log(reduxState);
   return (
     <Router>
       <ErrorsProvider>
