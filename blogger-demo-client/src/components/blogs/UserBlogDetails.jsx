@@ -1,6 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
-import { BlogContext } from '../../context/BlogContext';
 import { UserContext } from '../../context/UserContext';
 import BlogCard from './BlogCard';
 // /users/2/blogs
@@ -10,7 +9,6 @@ import BlogCard from './BlogCard';
   const { user_id } = useParams(); // /users/:user_id/blogs
 
   const { currentUser, users } = useContext(UserContext);
-  const { deleteBlog } = useContext(BlogContext);
 
   useEffect(() => {
     const usr = users.find(u => u.id === parseInt(user_id))
@@ -18,7 +16,7 @@ import BlogCard from './BlogCard';
     setUser(usr);
   }, [users, user_id])
   
-  const blogCards = user.blogs?.map(blog => <BlogCard key={ blog.id } blog={ blog } deleteBlog={ deleteBlog } currentUser={ currentUser }/>)
+  const blogCards = user.blogs?.map(blog => <BlogCard key={ blog.id } blog={ blog } currentUser={ currentUser }/>)
 
   return (
     <div>

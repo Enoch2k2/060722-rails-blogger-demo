@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import Login from './components/auth/Login';
 import Signup from './components/auth/Signup';
@@ -11,21 +11,29 @@ import Errors from './components/errors/Errors';
 import Navbar from './components/navigation/Navbar';
 import Home from './components/static/Home';
 import UserList from './components/users/UserList';
-import { BlogProvider } from './context/BlogContext';
 import { ErrorsProvider } from './context/ErrorsContext';
 import { UserProvider } from './context/UserContext';
-import { useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
+import { loadBlogs } from './components/actions/blogs';
 
 const App = () => {
   const [loading, setLoading] = useState(true);
-  const reduxState = useSelector((store) => store.blogsReducer );
 
-  console.log(reduxState);
+  const dispatch = useDispatch();
+  // const blogs = useSelector((store) => store.blogsReducer );
+  // const user = useSelector((store) => store.userReducer.currentUser );
+  // const errors = useSelector((store) => store.errorsReducer );
+
+  // console.log(blogs);
+
+  useEffect(() => {
+    dispatch(loadBlogs())
+  }, [dispatch])
+
   return (
     <Router>
       <ErrorsProvider>
         <UserProvider setLoading={ setLoading }>
-          <BlogProvider>
             <Navbar />
             <Errors />
             {
@@ -42,7 +50,6 @@ const App = () => {
               <Route path="/login" element={ <Login loading={ loading } /> } />
             </Routes>
             }
-          </BlogProvider>
         </UserProvider>
       </ErrorsProvider>
     </Router>

@@ -1,21 +1,17 @@
 import React, { useContext } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { BlogContext } from '../../context/BlogContext';
 import { UserContext } from '../../context/UserContext';
+import { useDispatch } from 'react-redux';
+import { deleteBlog } from '../actions/blogs';
 
 const BlogCard = ({ blog }) => {
   const navigate = useNavigate();
   const { currentUser } = useContext(UserContext);
-  const { deleteBlog } = useContext(BlogContext);
+
+  const dispatch = useDispatch()
+  
   const handleDelete = () => {
-    fetch(`/blogs/${ blog.id }`, {
-      method: "DELETE",
-      headers: {
-        "Accept": "application/json"
-      }
-    })
-      .then(resp => resp.json())
-      .then(data => deleteBlog(data))
+    dispatch(deleteBlog(blog.id))
   }
 
   return (

@@ -1,7 +1,8 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom';
-import { BlogContext } from '../../context/BlogContext';
 import { UserContext } from '../../context/UserContext';
+import { useDispatch, useSelector } from 'react-redux';
+import { editBlog } from '../actions/blogs';
 
 const intialState = {
   title: "",
@@ -10,10 +11,11 @@ const intialState = {
 
 const BlogEdit = ({ loading }) => {
   const { loggedIn, currentUser } = useContext(UserContext);
-  const { editBlog, blogs } = useContext(BlogContext);
+  const blogs = useSelector(store => store.blogsReducer );
   const [ formData, setFormData ] = useState(intialState);
   const { id } = useParams();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   useEffect(() => {
     if(!loading && !loggedIn) {
@@ -50,19 +52,7 @@ const BlogEdit = ({ loading }) => {
   const handleSubmit = e => {
     e.preventDefault();
 
-    fetch(`/blogs/${id}`, {
-      method: "PATCH",
-      headers: {
-        "Accept": "application/json",
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify(formData)
-    })
-      .then(resp => resp.json())
-      .then(data => {
-        editBlog(data)
-        navigate('/blogs')
-      })
+    dispatch(editBlog(id, formData, navigate))
   }
 
   return (

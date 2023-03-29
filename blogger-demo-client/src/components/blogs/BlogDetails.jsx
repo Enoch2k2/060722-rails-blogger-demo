@@ -1,11 +1,10 @@
-import React, { useContext } from 'react'
 import { useParams } from 'react-router-dom';
-import { BlogContext } from '../../context/BlogContext'
 import CommentCard from '../comments/CommentCard';
 import CommentForm from '../comments/CommentForm';
+import { useSelector } from 'react-redux';
 
 const BlogDetails = () => {
-  const { blogs } = useContext(BlogContext);
+  const blogs = useSelector(state => state.blogsReducer);
   const id  = parseInt(useParams().id);
   
   const blog = blogs.find(blog => blog.id === id);

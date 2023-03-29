@@ -1,32 +1,17 @@
-import React, { useContext, useState } from 'react'
-import { BlogContext } from '../../context/BlogContext';
-import { ErrorsContext } from '../../context/ErrorsContext';
-import { headers } from '../../Globals';
+import React, { useState } from 'react'
+import { addComment } from '../actions/blogs';
+import { useDispatch } from 'react-redux';
 
 const CommentForm = ({ blog_id }) => {
   const [content, setContent] = useState("")
   const [errors, setErrors] = useState([])
-  const { addComment } = useContext(BlogContext);
+
+  const dispatch = useDispatch();
 
   const handleSubmit = e => {
     e.preventDefault();
 
-    const options = {
-      method: "POST",
-      headers,
-      body: JSON.stringify({ content, blog_id })
-    }
-
-    fetch("/comments", options)
-      .then(resp => resp.json())
-      .then(data => {
-        // do stuff to make things viewable
-        if(data.errors) {
-          setErrors(data.errors);
-        } else {
-          addComment(data);
-        }
-      });
+    dispatch(addComment(content, blog_id, setErrors))
 
     setContent("") // reset our input
   }

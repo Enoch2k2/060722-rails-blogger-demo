@@ -1,8 +1,9 @@
 import { useState, useEffect, useContext } from 'react'
 import { useNavigate } from 'react-router-dom';
-import { BlogContext } from '../../context/BlogContext';
 import { ErrorsContext } from '../../context/ErrorsContext';
 import { UserContext } from '../../context/UserContext';
+import { addBlog } from '../actions/blogs';
+import { useDispatch } from 'react-redux';
 
 
 const BlogForm = ({ loading }) => {
@@ -14,10 +15,10 @@ const BlogForm = ({ loading }) => {
   
   const { setErrors } = useContext(ErrorsContext);
   const { loggedIn } = useContext(UserContext);
-  const { addBlog } = useContext(BlogContext)
   const [ formData, setFormData ] = useState(intialState);
 
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   useEffect(() => {
 
@@ -43,23 +44,7 @@ const BlogForm = ({ loading }) => {
   const handleSubmit = e => {
     e.preventDefault();
 
-    fetch('/blogs', {
-      method: "POST",
-      headers: {
-        "Accept": "application/json",
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify(formData)
-    })
-      .then(resp => resp.json())
-      .then(data => {
-        if(data.errors) {
-          setErrors(data.errors)
-        } else {
-          addBlog(data)
-          navigate('/blogs');
-        }
-      });
+    dispatch(addBlog(formData, navigate, setErrors))
   }
 
   return (
