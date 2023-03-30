@@ -1,6 +1,5 @@
 import { useState, createContext, useEffect } from "react";
 
-
 const UserContext = createContext({});
 
 const UserProvider = ({ children, setLoading }) => {
