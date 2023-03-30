@@ -11,7 +11,6 @@ import Errors from './components/errors/Errors';
 import Navbar from './components/navigation/Navbar';
 import Home from './components/static/Home';
 import UserList from './components/users/UserList';
-import { ErrorsProvider } from './context/ErrorsContext';
 import { UserProvider } from './context/UserContext';
 import { useDispatch } from 'react-redux';
 import { loadBlogs } from './components/actions/blogs';
@@ -32,26 +31,24 @@ const App = () => {
 
   return (
     <Router>
-      <ErrorsProvider>
-        <UserProvider setLoading={ setLoading }>
-            <Navbar />
-            <Errors />
-            {
-              loading ? <h1>Loading...</h1> : 
-              <Routes>
-              <Route path="/" element={ <Home />} />
-              <Route path="/users" element={ <UserList /> } />
-              <Route path="/users/:user_id/blogs" element={ <UserBlogDetails /> } />
-              <Route path="/blogs" element={ <BlogList />} />
-              <Route path="/blogs/new" element={ <BlogForm loading={ loading } />} />
-              <Route path="/blogs/:id/edit" element={ <BlogEdit  loading={ loading } />} />
-              <Route path="/blogs/:id" element={ <BlogDetails /> } />
-              <Route path="/signup" element={ <Signup loading={ loading } /> }  />
-              <Route path="/login" element={ <Login loading={ loading } /> } />
-            </Routes>
-            }
-        </UserProvider>
-      </ErrorsProvider>
+      <UserProvider setLoading={ setLoading }>
+          <Navbar />
+          <Errors />
+          {
+            loading ? <h1>Loading...</h1> : 
+            <Routes>
+            <Route path="/" element={ <Home />} />
+            <Route path="/users" element={ <UserList /> } />
+            <Route path="/users/:user_id/blogs" element={ <UserBlogDetails /> } />
+            <Route path="/blogs" element={ <BlogList />} />
+            <Route path="/blogs/new" element={ <BlogForm loading={ loading } />} />
+            <Route path="/blogs/:id/edit" element={ <BlogEdit  loading={ loading } />} />
+            <Route path="/blogs/:id" element={ <BlogDetails /> } />
+            <Route path="/signup" element={ <Signup loading={ loading } /> }  />
+            <Route path="/login" element={ <Login loading={ loading } /> } />
+          </Routes>
+          }
+      </UserProvider>
     </Router>
   );
 }

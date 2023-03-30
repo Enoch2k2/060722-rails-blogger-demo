@@ -1,4 +1,6 @@
 import { headers } from "../../Globals"
+import { setErrors } from "./errors";
+
 export const loadBlogs = () => {
   // thunk middleware uses these actions to make asynchronous calls
   // it expects a function to be returned
@@ -55,7 +57,7 @@ export const editBlog = (id, formData, navigate) => {
   }
 }
 
-export const addBlog = (formData, navigate, setErrors) => {
+export const addBlog = (formData, navigate) => {
   return dispatch => {
     fetch('/blogs', {
       method: "POST",
@@ -68,8 +70,7 @@ export const addBlog = (formData, navigate, setErrors) => {
       .then(resp => resp.json())
       .then(data => {
         if(data.errors) {
-          // dispatch to ErrorsReducer for error handling
-          setErrors(data.errors)
+          dispatch(setErrors(data.errors));
         } else {
           // addBlog(data)
           // dispatch to BlogsReducer for adding a blog
@@ -77,6 +78,7 @@ export const addBlog = (formData, navigate, setErrors) => {
             type: "ADD_BLOG",
             payload: data
           }
+          
           dispatch(action);
           navigate('/blogs');
         }

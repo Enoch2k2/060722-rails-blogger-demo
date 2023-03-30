@@ -1,9 +1,9 @@
 import { useState, useEffect, useContext } from 'react'
 import { useNavigate } from 'react-router-dom';
-import { ErrorsContext } from '../../context/ErrorsContext';
 import { UserContext } from '../../context/UserContext';
 import { addBlog } from '../actions/blogs';
 import { useDispatch } from 'react-redux';
+import { clearErrors } from '../actions/errors';
 
 
 const BlogForm = ({ loading }) => {
@@ -12,8 +12,7 @@ const BlogForm = ({ loading }) => {
     title: "",
     content: ""
   }
-  
-  const { setErrors } = useContext(ErrorsContext);
+
   const { loggedIn } = useContext(UserContext);
   const [ formData, setFormData ] = useState(intialState);
 
@@ -21,16 +20,15 @@ const BlogForm = ({ loading }) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-
     if(!loading && !loggedIn) {
       navigate('/login')
     }
 
     return () => {
       // code here is what happens when the component is unmounting
-      setErrors([])
+      dispatch(clearErrors())
     }
-  }, [loading, loggedIn, navigate, setErrors])
+  }, [loading, loggedIn, navigate, dispatch])
 
   const handleChange = e => {
     const { name, value } = e.target;
@@ -44,7 +42,7 @@ const BlogForm = ({ loading }) => {
   const handleSubmit = e => {
     e.preventDefault();
 
-    dispatch(addBlog(formData, navigate, setErrors))
+    dispatch(addBlog(formData, navigate))
   }
 
   return (
@@ -71,7 +69,6 @@ const BlogForm = ({ loading }) => {
             onChange={ handleChange }
           />
         </div>
-
         <input type="submit" value="Create Blog" />
       </form>
     </div>

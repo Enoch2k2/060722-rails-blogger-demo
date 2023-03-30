@@ -1,3 +1,5 @@
+import { updateResource, addResource, updateResourceCollection } from "../../Globals";
+
 const blogsReducer = (state=[], action) => {
   // the action is an object that has these key values applied, action.type, action.payload
 
@@ -8,27 +10,14 @@ const blogsReducer = (state=[], action) => {
     case "DELETE_BLOG":
       return state.filter(blog => blog.id !== action.payload);
     case "EDIT_BLOG":
-      return state.map(blog => {
-        if(action.payload.id === blog.id) {
-          return action.payload;
-        } else {
-          return blog;
-        }
-      })   
+      return updateResource(state, action.payload);
     case "ADD_BLOG":
-      return [...state, action.payload]
+      return addResource(state, action.payload)
     case "ADD_BLOG_COMMENT":
       const blog = state.find(b => b.id === action.payload.blog_id);
-      const updatedComments = [...blog.comments, action.payload];
-      const updatedBlog = { ...blog, comments: updatedComments };
-
-      return state.map(b => {
-        if(b.id === blog.id) {
-          return updatedBlog;
-        } else {
-          return b;
-        }
-      });
+      const updatedComments = addResource(blog.comments, action.payload)
+      const updatedBlog = updateResourceCollection(blog, "comments", updatedComments)
+      return updateResource(state, updatedBlog);
 
     default:
       return state;

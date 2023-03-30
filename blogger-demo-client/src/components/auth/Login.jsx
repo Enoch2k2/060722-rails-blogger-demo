@@ -2,17 +2,17 @@ import React, { useState, useEffect, useContext } from 'react'
 import { headers } from '../../Globals';
 import { useNavigate } from 'react-router-dom';
 import { UserContext } from '../../context/UserContext';
-import { ErrorsContext } from '../../context/ErrorsContext';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { setErrors, clearErrors } from '../actions/errors';
 
 const Login = ({ loading }) => {
-  const { setErrors } = useContext(ErrorsContext);
   const { loginUser, loggedIn } = useContext(UserContext);
   const [username, setUsername] = useState("")
   const [password, setPassword] = useState("")
   const user = useSelector(store => store.usersReducer.loggedIn);
   console.log('inside of the login component', user);
 
+  const dispatch = useDispatch();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -23,9 +23,10 @@ const Login = ({ loading }) => {
     }
     return () => {
       // code here is what happens when the component is unmounting
-      setErrors([])
+      dispatch(clearErrors())
+      // dispatch({ type: "CLEAR_ERRORS" }) send it to the reducer
     }
-  }, [loading, loggedIn, navigate, setErrors])
+  }, [loading, loggedIn, navigate, dispatch])
 
   const handleSubmit = e => {
     e.preventDefault();
@@ -38,10 +39,10 @@ const Login = ({ loading }) => {
       .then(resp => resp.json())
       .then(data => {
         if(data.errors) {
-          setErrors(data.errors);
+          dispatch(setErrors(data.errors));
         } else {
           loginUser(data)
-          setErrors([])
+          dispatch(clearErrors())
           navigate("/blogs")
         }
       })

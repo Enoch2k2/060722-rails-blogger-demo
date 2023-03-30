@@ -2,14 +2,15 @@ import React, { useState, useEffect, useContext } from 'react'
 import { headers } from '../../Globals';
 import { useNavigate } from 'react-router-dom';
 import { UserContext } from '../../context/UserContext';
-import { ErrorsContext } from '../../context/ErrorsContext';
+import { setErrors, clearErrors } from '../actions/errors';
+import { useDispatch } from 'react-redux';
 
 const Signup = ({ loading }) => {
-  const { setErrors } = useContext(ErrorsContext);
   const { addUser, loginUser, loggedIn } = useContext(UserContext);
   const [username, setUsername] = useState("")
   const [password, setPassword] = useState("")
 
+  const dispatch = useDispatch();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -21,9 +22,9 @@ const Signup = ({ loading }) => {
 
     return () => {
       // code here is what happens when the component is unmounting
-      setErrors([])
+      dispatch(clearErrors())
     }
-  }, [loading, loggedIn, navigate, setErrors])
+  }, [loading, loggedIn, navigate, dispatch])
 
   const handleSubmit = e => {
     e.preventDefault();
@@ -36,7 +37,7 @@ const Signup = ({ loading }) => {
       .then(resp => resp.json())
       .then(data => {
         if(data.errors) {
-          setErrors(data.errors);
+          dispatch(setErrors(data.errors));
         } else {
           addUser(data)
           loginUser(data)
