@@ -1,12 +1,10 @@
-import React, { useContext } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { UserContext } from '../../context/UserContext';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { deleteBlog } from '../actions/blogs';
 
 const BlogCard = ({ blog }) => {
   const navigate = useNavigate();
-  const { currentUser } = useContext(UserContext);
+  const currentUser = useSelector(store => store.usersReducer.currentUser);
 
   const dispatch = useDispatch()
   

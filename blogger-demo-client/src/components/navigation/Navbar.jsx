@@ -1,13 +1,14 @@
-import { useContext } from 'react';
 import { Link } from 'react-router-dom';
-import { UserContext } from '../../context/UserContext';
+import { useSelector, useDispatch } from 'react-redux';
+import { logoutUser } from '../actions/users';
 
 const Navbar = () => {
-  const { loggedIn, logoutUser, currentUser } = useContext(UserContext)
+  const { loggedIn, currentUser } = useSelector(store => store.usersReducer );
+  const dispatch = useDispatch();
 
   const handleLogout = () => {
     fetch('/logout', { method: "DELETE" })
-    logoutUser();
+    dispatch(logoutUser());
   }
 
   const loggedInLinks = () => {

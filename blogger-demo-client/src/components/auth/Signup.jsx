@@ -1,12 +1,11 @@
-import React, { useState, useEffect, useContext } from 'react'
-import { headers } from '../../Globals';
+import React, { useState, useEffect} from 'react'
 import { useNavigate } from 'react-router-dom';
-import { UserContext } from '../../context/UserContext';
 import { setErrors, clearErrors } from '../actions/errors';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { signupUser } from '../actions/users';
 
 const Signup = ({ loading }) => {
-  const { addUser, loginUser, loggedIn } = useContext(UserContext);
+  const { loggedIn } = useSelector(store => store.usersReducer );
   const [username, setUsername] = useState("")
   const [password, setPassword] = useState("")
 
@@ -28,22 +27,8 @@ const Signup = ({ loading }) => {
 
   const handleSubmit = e => {
     e.preventDefault();
-
-    fetch("/signup", {
-      method: "POST",
-      headers,
-      body: JSON.stringify({ username, password })
-    })
-      .then(resp => resp.json())
-      .then(data => {
-        if(data.errors) {
-          dispatch(setErrors(data.errors));
-        } else {
-          addUser(data)
-          loginUser(data)
-          navigate("/blogs")
-        }
-      })
+    const user = { username, password }
+    dispatch(signupUser(user, navigate))
   }
 
   return (

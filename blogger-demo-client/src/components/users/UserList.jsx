@@ -1,11 +1,10 @@
-import React, { useContext, useEffect } from 'react'
+import React, { useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { UserContext } from '../../context/UserContext';
-
+import { useSelector } from 'react-redux';
 
 const UserList = ({ loading }) => {
   const navigate = useNavigate();
-  const { users, loggedIn } = useContext(UserContext);
+  const { users, loggedIn } = useSelector(store => store.usersReducer)
   
   useEffect(() => {
     if(!loading && !loggedIn) {

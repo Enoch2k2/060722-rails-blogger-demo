@@ -1,6 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom';
-import { UserContext } from '../../context/UserContext';
 import { useDispatch, useSelector } from 'react-redux';
 import { editBlog } from '../actions/blogs';
 
@@ -10,7 +9,7 @@ const intialState = {
 }
 
 const BlogEdit = ({ loading }) => {
-  const { loggedIn, currentUser } = useContext(UserContext);
+  const { loggedIn, currentUser } = useSelector(store => store.usersReducer);
   const blogs = useSelector(store => store.blogsReducer );
   const [ formData, setFormData ] = useState(intialState);
   const { id } = useParams();

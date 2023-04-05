@@ -1,14 +1,14 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
-import { UserContext } from '../../context/UserContext';
 import BlogCard from './BlogCard';
+import { useSelector } from 'react-redux';
 // /users/2/blogs
 
  const UserBlogDetails = () => {
   const [user, setUser] = useState({});
   const { user_id } = useParams(); // /users/:user_id/blogs
 
-  const { currentUser, users } = useContext(UserContext);
+  const { currentUser, users } = useSelector(store => store.usersReducer);
 
   useEffect(() => {
     const usr = users.find(u => u.id === parseInt(user_id))

@@ -1,16 +1,15 @@
-import React, { useState, useEffect, useContext } from 'react'
+import React, { useState, useEffect } from 'react'
 import { headers } from '../../Globals';
 import { useNavigate } from 'react-router-dom';
-import { UserContext } from '../../context/UserContext';
 import { useDispatch, useSelector } from 'react-redux';
 import { setErrors, clearErrors } from '../actions/errors';
+import { loginUser } from '../actions/users';
 
 const Login = ({ loading }) => {
-  const { loginUser, loggedIn } = useContext(UserContext);
+  const { loggedIn } = useSelector(store => store.usersReducer);
   const [username, setUsername] = useState("")
   const [password, setPassword] = useState("")
-  const user = useSelector(store => store.usersReducer.loggedIn);
-  console.log('inside of the login component', user);
+  console.log('inside of the login component', loggedIn);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -30,22 +29,9 @@ const Login = ({ loading }) => {
 
   const handleSubmit = e => {
     e.preventDefault();
+    const user = { username, password }
 
-    fetch("/login", {
-      method: "POST",
-      headers,
-      body: JSON.stringify({ username, password })
-    })
-      .then(resp => resp.json())
-      .then(data => {
-        if(data.errors) {
-          dispatch(setErrors(data.errors));
-        } else {
-          loginUser(data)
-          dispatch(clearErrors())
-          navigate("/blogs")
-        }
-      })
+    dispatch(loginUser(user, navigate))
   }
 
   return (

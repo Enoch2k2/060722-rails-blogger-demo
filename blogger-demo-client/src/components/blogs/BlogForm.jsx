@@ -1,8 +1,7 @@
 import { useState, useEffect, useContext } from 'react'
 import { useNavigate } from 'react-router-dom';
-import { UserContext } from '../../context/UserContext';
 import { addBlog } from '../actions/blogs';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { clearErrors } from '../actions/errors';
 
 
@@ -13,7 +12,7 @@ const BlogForm = ({ loading }) => {
     content: ""
   }
 
-  const { loggedIn } = useContext(UserContext);
+  const { loggedIn } = useSelector(store => store.usersReducer);
   const [ formData, setFormData ] = useState(intialState);
 
   const navigate = useNavigate();

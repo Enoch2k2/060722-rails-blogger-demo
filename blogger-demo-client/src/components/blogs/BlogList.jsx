@@ -1,13 +1,12 @@
 import BlogCard from "./BlogCard"
-import { useContext, useEffect } from 'react';
+import { useEffect } from 'react';
 import { useNavigate } from "react-router-dom";
-import { UserContext } from "../../context/UserContext";
 import { useSelector } from 'react-redux';
 
 const BlogList = ({ loading }) => {
 
   const navigate = useNavigate();
-  const { loggedIn } = useContext(UserContext)
+  const { loggedIn } = useSelector(store => store.usersReducer);
   const blogs = useSelector(store => store.blogsReducer );
 
   useEffect(() => {

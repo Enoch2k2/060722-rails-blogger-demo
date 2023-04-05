@@ -11,9 +11,9 @@ import Errors from './components/errors/Errors';
 import Navbar from './components/navigation/Navbar';
 import Home from './components/static/Home';
 import UserList from './components/users/UserList';
-import { UserProvider } from './context/UserContext';
 import { useDispatch } from 'react-redux';
 import { loadBlogs } from './components/actions/blogs';
+import { loadCurrentUser, loadUsers } from './components/actions/users';
 
 const App = () => {
   const [loading, setLoading] = useState(true);
@@ -27,11 +27,12 @@ const App = () => {
 
   useEffect(() => {
     dispatch(loadBlogs())
+    dispatch(loadUsers(setLoading))
+    dispatch(loadCurrentUser(setLoading))
   }, [dispatch])
 
   return (
     <Router>
-      <UserProvider setLoading={ setLoading }>
           <Navbar />
           <Errors />
           {
@@ -48,7 +49,6 @@ const App = () => {
             <Route path="/login" element={ <Login loading={ loading } /> } />
           </Routes>
           }
-      </UserProvider>
     </Router>
   );
 }
